@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" href="/images/bateman.jpg">
+  <link rel="manifest" href="/manifest.json">
+  <!-- <link rel="stylesheet" href="../public/css/styles.css" type="text/css"> -->
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="/js/main.js"></script>
+  <title>ARCHIVE</title>
+</head>
+
+<body>
+
+  <nav class="nav-container">
+    <div class="nav-link-container1">
+      <div class="name">ARCHIVE</div>
+      <a href="#" class="nav-link">Menu</a>
+      <a href="#shop" class="nav-link">Shop</a>
+      <a href="#library" class="nav-link">Library</a>
+      <a href="#" class="nav-link">Lookbook</a>
+    </div>
+
+    <div class="nav-link-container2">
+      <input type="text" name="search" placeholder="SEARCH" id="search">
+      <a href="sign-up.html" class="nav-link sign-up">join us</a>
+
+    </div>
+
+    <div class="off-screen-menu">
+      <ul id="ul">
+        <input type="text" placeholder="Search" class="ham-search">
+        <a href="/sign-up" class="ham-link">Sign up</a>
+        <a href="#" class="ham-link">Lookbook</a>
+        <a href="#" class="ham-link">Library</a>
+        <a href="#" class="ham-link">About</a>
+        <a href="sign-up.html" class="ham-link">Log In</a>
+      </ul>
+    </div>
+
+    <div class="hamburger">
+      <nav class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </nav>
+    </div>
+  </nav>
+
+
+  <div class="landing-section">
+    <div class="hero-section">
+      <div class="hero-text-container">
+        <h1>Get exclusive access to Latest Content
+        </h1>
+        <p>ARCHIVE offers you first-hand access to what the raves about.
+          <br> From music and fashion to books and favorite shows ?
+          We got it. <br>
+          Be a part of the inner circle and join us.
+        </p>
+
+        <div class="button-container">
+
+          <a class="nav-link sign-up" id="signupBtn" href="sign-up">Sign up</a>
+          <button class="nav-link log-in" id="loginBtn">See more</button>
+        </div>
+      </div>
+      <div class="hero-image-container">
+        <img src="/images/bateman.jpg" alt="patrick bateman">
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div class="shop-caption" id="shop">
+    <h2>SHOP</h2>
+  </div>
+
+  <div class="shop-section">
+    <div class="video-container">
+      <video class="number-nine-video" autoplay loop muted playsinline>
+        <source src="/images/videos/signup_video2.mp4" type="video/mp4">
+      </video>
+
+      <div class="action-container">
+        <button class="selection-buttons">Concerts</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="shop-caption" id="library">
+    <h2>LIBRARY</h2>
+  </div>
+
+  <div class="library-section">
+    <div class="library-container">
+
+
+      <div class="card card1">
+        <img src="/images/cards/maisonMargielaCard.png" alt="Maison Margiela">
+
+
+        <div class="card-text">
+          <h3>Maison Margiela</h3>
+          <p>Maison Margiela</p>
+        </div>
+      </div>
+      <div class="card card2">
+        <img src="/images/cards/chromeHeartsCard.png" alt="Chrome Hearts Magazine">
+
+        <div class="card-text">
+          <h3>Chrome Hearts </h3>
+          <p>Richard Stark</p>
+        </div>
+
+
+      </div>
+      <div class="card card3">
+        <img src="/images/cards/numberNineCard.png" alt="Number Nine image">
+
+        <div class="card-text">
+          <h3>Number (N)ine</h3>
+          <p>Takehiro Miyashita</p>
+        </div>
+
+      </div>
+      <div class="card card4">
+        <img src="/images/cards/kapitalCard.png" alt="Sea Gypsies by Kapital">
+
+        <div class="card-text">
+          <h3>Kapital</h3>
+          <p>Unknown</p>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <footer class="footer">
+    <div class="about-container">
+      <p>Daniel Aiwuyo</p>
+      <p>Prototype: PWA</p>
+    </div>
+    <div class="footer-nav">
+      <a href="/">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Location</a>
+    </div>
+  </footer>
+
+
+  <script>
+    const signupBtn = document.getElementById('signupBtn');
+    const loginBtn = document.getElementById('loginBtn');
+
+
+    signupBtn.addEventListener('click', () => {
+      window.location.href = '/signup'
+    })
+
+    loginBtn.addEventListener('click', () => window.location.href = '/login')
+  </script>
+
+
+</body>
+
+</html>
