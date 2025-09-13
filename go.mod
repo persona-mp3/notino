@@ -1,4 +1,4 @@
-module github.com/perona-mp3/pwa
+module github.com/persona-mp3/pwa
 
 go 1.24.4
 

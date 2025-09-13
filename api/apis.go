@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	db "github.com/perona-mp3/pwa/database"
+	db "github.com/persona-mp3/pwa/database"
 )
 
 // TODO: Refactor this to use parameter queries instead

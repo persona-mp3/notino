@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/perona-mp3/pwa/api"
+	"github.com/persona-mp3/pwa/api"
 )
 
 func main() {
