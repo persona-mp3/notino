@@ -6,15 +6,15 @@ import (
 	"log"
 	"net/http"
 
+	publisher "github.com/persona-mp3/pwa/broker"
 	db "github.com/persona-mp3/pwa/database"
 	rmq "github.com/rabbitmq/amqp091-go"
-	publisher "github.com/persona-mp3/pwa/kafka"
 )
 
 var c = publisher.Connection{
-	User: "guest",
-	Host: "localhost",
-	Port: 5672,
+	User:     "guest",
+	Host:     "localhost",
+	Port:     5672,
 	Password: "guest",
 }
 
@@ -41,6 +41,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		log.Printf("ERROR: createUserHandler : %s", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
+	defer conn.Conn.Close()
 
 	res, err := conn.CreateUser(u)
 	if err != nil {
@@ -52,39 +53,36 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(res)
 
-
 	// create new connection to kafka
 	client, err := publisher.NewConnection(c)
 	if err != nil {
 		return
 	}
 	dq := publisher.Queue{
-		Name: "break_prod",
-		Durable: false,
-		AutoDel: false,
+		Name:      "break_prod",
+		Durable:   false,
+		AutoDel:   false,
 		Exclusive: false,
-		NoWait: false,
+		NoWait:    false,
 	}
-	q, err:= client.DeclareDirectQueue(dq)
+	q, err := client.DeclareDirectQueue(dq)
 	if err != nil {
 		return
 	}
 
-	
-	
 	body, err := json.Marshal(res)
 	if err != nil {
 		log.Println("Could not marshal response??")
 		return
 	}
 	msg := publisher.PublishConfig{
-		Exchange: "",
-		Key: q.Name, 
+		Exchange:  "",
+		Key:       q.Name,
 		Mandatory: false,
 		Immediate: false,
 		Msg: &rmq.Publishing{
 			ContentType: "text/plain",
-			Body: body,
+			Body:        body,
 		},
 	}
 	if err := client.Publish(context.Background(), q, msg); err != nil {
@@ -94,4 +92,3 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer client.Close()
 
 }
-

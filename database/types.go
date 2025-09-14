@@ -3,7 +3,7 @@ package db
 import "database/sql"
 
 type DBConn struct {
-	conn *sql.DB
+	Conn *sql.DB
 }
 
 type UserReq struct {

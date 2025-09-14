@@ -25,7 +25,7 @@ func ConnectDB() (*DBConn, error) {
 		return nil, fmt.Errorf("Error occured opening connection:\n %w", err)
 	}
 
-	return &DBConn{conn: conn}, nil
+	return &DBConn{Conn: conn}, nil
 }
 
 func castToUserRes(u *UserReq) *UserRes {
@@ -42,7 +42,7 @@ func castToUserRes(u *UserReq) *UserRes {
 }
 func (c *DBConn) CreateUser(u *UserReq) (*UserRes, error) {
 	fmt.Println("pinging...")
-	if err := c.conn.Ping(); err != nil {
+	if err := c.Conn.Ping(); err != nil {
 		return nil, fmt.Errorf("Database did not return ping ->\n:%w", err)
 	}
 
@@ -51,7 +51,7 @@ func (c *DBConn) CreateUser(u *UserReq) (*UserRes, error) {
 	VALUES (?, ?, ?, ?);
 	`
 
-	res, err := c.conn.Exec(q, &u.UserName, &u.FirstName, &u.LastName, &u.Email)
+	res, err := c.Conn.Exec(q, &u.UserName, &u.FirstName, &u.LastName, &u.Email)
 	if err != nil {
 		return nil, fmt.Errorf("Error occured trying to insert user:\n %w", err)
 	}
