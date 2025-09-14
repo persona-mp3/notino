@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/persona-mp3/pwa/api"
@@ -14,5 +15,9 @@ func main() {
 	fmt.Println("server running")
 	fmt.Println("http//localhost:8700")
 	http.Handle("/", fs)
-	http.ListenAndServe(":8700", nil)
+	err := http.ListenAndServe(":8700", nil)
+	if err != nil {
+		fmt.Println("could not start server")
+		log.Fatal(err)
+	}
 }

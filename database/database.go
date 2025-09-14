@@ -77,3 +77,7 @@ func (c *DBConn) CreateUser(u *UserReq) (*UserRes, error) {
 
 	return ur, nil
 }
+
+// now we can now push this event to kafka
+// and push let the other microservice do something with it:
+func SendEvent() {}
