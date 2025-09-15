@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "name": "consumer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/amqplib": "^0.10.7",
+    "@types/dotenv": "^8.2.3",
+    "amqplib": "^0.10.9",
+    "dotenv": "^17.2.2"
+  }
+}
