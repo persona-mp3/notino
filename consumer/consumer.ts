@@ -20,7 +20,7 @@ type User = {
 
 const msgFmt= (name:any) => `
 <h2> Hey there ${name} </h2>
-\t 
+
 <p>You have just signed up to create an account with ImportantBusiness.</p>
 <p>
   For your first task, please visit <a>https://github.com/persona-mp3/proto.git</a>.
@@ -35,10 +35,6 @@ eventConsumer.on("notification", async (content) => {
   const parsedContent = JSON.parse(content)
   console.log(parsedContent)
   const u: User = parsedContent as User
-  console.log(parsedContent.email)
-  console.log()
-  console.log()
-  console.log()
   try {
     await sendEmail(u)
   } catch (err) { 

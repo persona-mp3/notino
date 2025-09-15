@@ -15,7 +15,7 @@ mail_1.default.setApiKey(API_KEY);
 const eventConsumer = new emitter_1.RabbitEvents();
 const msgFmt = (name) => `
 <h2> Hey there ${name} </h2>
-\t 
+
 <p>You have just signed up to create an account with ImportantBusiness.</p>
 <p>
   For your first task, please visit <a>https://github.com/persona-mp3/proto.git</a>.
@@ -30,10 +30,6 @@ eventConsumer.on("notification", async (content) => {
     const parsedContent = JSON.parse(content);
     console.log(parsedContent);
     const u = parsedContent;
-    console.log(parsedContent.email);
-    console.log();
-    console.log();
-    console.log();
     try {
         await sendEmail(u);
     }
