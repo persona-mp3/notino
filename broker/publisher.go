@@ -16,8 +16,8 @@ type Connection struct {
 	Port     int64
 }
 type Client struct {
-	conn *rmq.Connection
-	ch   *rmq.Channel
+	Conn *rmq.Connection
+	Ch   *rmq.Channel
 }
 
 type Queue struct {
@@ -61,16 +61,16 @@ func NewConnection(c Connection) (*Client, error) {
 
 	// at the moment, since we only have one consumer, we'll use
 	// a direct `Exchange` binding
-	return &Client{ch: ch, conn: conn}, nil
+	return &Client{Ch: ch, Conn: conn}, nil
 }
 
 func (c *Client) Close() error {
-	if err := c.conn.Close(); err != nil {
+	if err := c.Conn.Close(); err != nil {
 		errorLogger("error in closing connection", err)
 		return err
 	}
 
-	if err := c.ch.Close(); err != nil {
+	if err := c.Ch.Close(); err != nil {
 		errorLogger("error in closing channel", err)
 		return err
 	}
@@ -78,7 +78,7 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) DeclareDirectQueue(def Queue) (*rmq.Queue, error) {
-	q, err := c.ch.QueueDeclare(
+	q, err := c.Ch.QueueDeclare(
 		def.Name, def.Durable, def.AutoDel, def.Exclusive, def.NoWait, nil,
 	)
 	if err != nil {
@@ -94,7 +94,7 @@ func (c *Client) DeclareDirectQueue(def Queue) (*rmq.Queue, error) {
 //
 // Returns errors while trying to publish
 func (c *Client) Publish(ctx context.Context, q *rmq.Queue, msg PublishConfig) error {
-	err := c.ch.PublishWithContext(ctx,
+	err := c.Ch.PublishWithContext(ctx,
 		msg.Exchange,
 		msg.Key,
 		msg.Mandatory,
@@ -120,7 +120,7 @@ type ConsumeConfig struct {
 	Name string
 }
 func (c *Client) Consume(queue *rmq.Queue) error {
-	msgs, err := c.ch.Consume(queue.Name, "", false, false, false, false, nil)
+	msgs, err := c.Ch.Consume(queue.Name, "", false, false, false, false, nil)
 	if err != nil {
 		errorLogger("Could not consume", err)
 		return err
