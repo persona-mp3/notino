@@ -1,22 +1,70 @@
 import { RabbitEvents } from "./emitter";
+import  sgMail from "@sendgrid/mail"
+import dotenv from "dotenv"
+
+dotenv.config()
+const API_KEY = process.env.SG_KEY
+if (!API_KEY) {
+  throw ("Could not read api key")
+}
+sgMail.setApiKey(API_KEY)
 
 const eventConsumer = new RabbitEvents()
 type User = {
+  id: string,
   userName: string,
   email: string,
-  firstName: string, 
+  firstName: string,
   lastName: string,
 }
 
+const msgFmt= (name:any) => `
+<h2> Hey there ${name} </h2>
+\t 
+<p>You have just signed up to create an account with ImportantBusiness.</p>
+<p>
+  For your first task, please visit <a>https://github.com/persona-mp3/proto.git</a>.
+  When you've been able to complete the task, don't forget to send the your answers to 
+  us through the website.
+</p> 
+
+  <p>persona - 20 Verdant Street, The Bikini Bottom</p>
+`
 eventConsumer.on("notification", async (content) => {
   console.log("JS Consumer: Got notification from emiiter")
-  // some api function call to send email
-  // perform typecasting for verifying data
-  const u: User = content as User
-  await sendEmail(u)
+  const parsedContent = JSON.parse(content)
+  console.log(parsedContent)
+  const u: User = parsedContent as User
+  console.log(parsedContent.email)
+  console.log()
+  console.log()
+  console.log()
+  try {
+    await sendEmail(u)
+  } catch (err) { 
+    console.log(err)
+  }
 })
 
-async function sendEmail(u: User){
-  console.log("send email verification")
+
+async function sendEmail(u: User) {
+  console.log("sending email verification to -> ", u.email)
+  const msg = {
+    to: u.email,
+    from: "personacodes@gmail.com",
+    subject: "Account Confirmation",
+    html: msgFmt(`${u.firstName} ${u.lastName}`)
+  }
+
+  try {
+    const res = await sgMail.send(msg)
+    console.log("sent email, reading response headers")
+    const statusCode = res[0].statusCode
+    const headers = res[0].headers
+
+    console.log("status code returned -> %s", statusCode)
+  } catch (err) {
+    throw err
+  }
 }
-eventConsumer.start("break_prod",  "amqp://localhost")
+eventConsumer.start("break_prod", "amqp://localhost")

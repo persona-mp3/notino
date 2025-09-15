@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@sendgrid/mail": "^8.1.5",
     "typescript": "^5.9.2"
   },
   "name": "consumer",
