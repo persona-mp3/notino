@@ -49,6 +49,7 @@ func NewConnection(c Connection) (*Client, error) {
 	conn, err := rmq.Dial(CURL)
 	if err != nil {
 		errorLogger("panic: could not connect with rabbit", err)
+		fmt.Printf("PANIC: %s\n", err)
 		return nil, err
 	}
 
@@ -56,6 +57,7 @@ func NewConnection(c Connection) (*Client, error) {
 	ch, err := conn.Channel()
 	if err != nil {
 		errorLogger("error: could not create channel with rabbit", err)
+		fmt.Printf("PANIC: %s\n", err)
 		return nil, err
 	}
 

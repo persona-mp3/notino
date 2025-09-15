@@ -20,10 +20,11 @@ func main() {
 		fmt.Println("Example: go run main.go :8000")
 		return
 	}
+	// initate connection with RabbitMq before anything else, to avoid opening new connections for every endpoint
+	api.RabbitConnect() 
 
 	fs := http.FileServer(http.Dir("./pwa01/views/"))
 	http.HandleFunc("/users/create", api.CreateUser)
-	fmt.Printf("server running on port %s\n", os.Args[1])
 	fmt.Printf("visit http://localhost%s/users/create\n", os.Args[1])
 	http.Handle("/", fs)
 	err := http.ListenAndServe(os.Args[1], nil)

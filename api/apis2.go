@@ -1,10 +1,11 @@
-// API handlers for aforementioned routes. Each handler, if configured sends, 
-// publishes messages to RabbitMQ, and database connections. No values are returned 
+// API handlers for aforementioned routes. Each handler, if configured sends,
+// publishes messages to RabbitMQ, and database connections. No values are returned
 package api
 
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -25,7 +26,7 @@ var RabbitClient *publisher.Client
 func RabbitConnect() {
 	conn, err := publisher.NewConnection(connConfig)
 	if err != nil {
-		log.Printf("PANIC: Could not connect with broker:\n %s", err)
+		log.Printf("PANIC: Could not connect with broker:\n %s\n", err)
 		return
 	}
 
@@ -40,7 +41,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// read request body
-	var u db.UserReq
+	var u *db.UserReq
 	if err := json.NewDecoder(r.Body).Decode(&u); err != nil {
 		http.Error(w, "internal server error", http.StatusTeapot)
 		return
@@ -55,20 +56,22 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	// should return a bool value just to certify if the databased refused connection
 	// or user data violated database schema
-	res, err := conn.CreateUser(&u)
+	res, err := conn.CreateUser(u)
 	if err != nil {
 		log.Printf("ERR: createUserHandler:\n %s\n", err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}
 
+	fmt.Println("sending response to client")
+	fmt.Println("response to send -->", res)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(res)
 
 	// now we need to first check if we are still connected with rabit
 	if RabbitClient == nil {
-		log.Println("PANIC: rabbitClient connection is nil ->", *RabbitClient)
+		log.Println("PANIC: rabbitClient connection is nil ->", RabbitClient)
 		return
 	}
 
@@ -106,3 +109,4 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("[o] Message sent to broker")
 }
+
