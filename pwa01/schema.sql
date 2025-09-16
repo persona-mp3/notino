@@ -1,14 +1,12 @@
-CREATE DATABASE pwa01;
-USE pwa01;
+CREATE DATABASE notino;
+USE notino;
 
 CREATE TABLE Users (
     id  INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL ,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL, 
+    username VARCHAR(255) NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO Users VALUES ( 'danieleghosa@gmail.com', 'aerodynamics')
-
-ALTER TABLE Users 
-CHANGE id user_id INTEGER PRIMARY KEY AUTO_INCREMENT;

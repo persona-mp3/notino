@@ -12,8 +12,7 @@ import (
 )
 
 const (
-	DB_NAME = "go_db_2"
-	DRIVER  = "mysql"
+	DRIVER = "mysql"
 )
 
 func loadEnv() error {
@@ -34,13 +33,14 @@ func ConnectDB() (*DBConn, error) {
 	HOST := os.Getenv("SQL_HOST")
 	PASSWORD := os.Getenv("SQL_PASSWORD")
 	USER := os.Getenv("SQL_USER")
+	DB_NAME := os.Getenv("DB_NAME")
 	PORT, err := strconv.ParseInt(os.Getenv("SQL_PORT"), 10, 64)
 
-	var connStr string = fmt.Sprintf("%s:%s@/%s", USER, PASSWORD, DB_NAME)
-
-	if HOST == "" || PASSWORD == "" || USER == "" || PORT == 0 {
+	if HOST == "" || PASSWORD == "" || USER == "" || DB_NAME == "" || PORT == 0 {
 		return nil, fmt.Errorf("Check env!, some values have not been set properly\n")
 	}
+
+	var connStr string = fmt.Sprintf("%s:%s@/%s", USER, PASSWORD, DB_NAME)
 	conn, err := sql.Open(DRIVER, connStr)
 	if err != nil {
 		return nil, fmt.Errorf("Error occured opening connection:\n %w", err)
@@ -98,4 +98,3 @@ func (c *DBConn) CreateUser(u *UserReq) (*UserRes, error) {
 
 	return ur, nil
 }
-
