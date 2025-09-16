@@ -16,13 +16,6 @@ import (
 	rmq "github.com/rabbitmq/amqp091-go"
 )
 
-// var connConfig = publisher.Connection{
-// 	User:     "guest",
-// 	Password: "guest",
-// 	Host:     "localhost",
-// 	Port:     5672,
-// }
-
 var RabbitClient *publisher.Client
 
 func RabbitConnect(c publisher.Connection) {
@@ -35,6 +28,7 @@ func RabbitConnect(c publisher.Connection) {
 	RabbitClient = conn
 	log.Println("connection initialised with broker")
 }
+
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" || r.Body == nil {
@@ -52,6 +46,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	conn, err := db.ConnectDB()
 	if err != nil {
 		http.Error(w, "internal Server error", http.StatusInternalServerError)
+		fmt.Println(err)
 		return
 	}
 	defer conn.Conn.Close()
