@@ -1,17 +1,16 @@
 # Notino
 
 Notino is a lightweight micro-service architecture for creating and managing users.
-It follows an event-driven system with notifications, new users are sent to RabbitMQ and then to a cosumer client 
+It follows an event-driven system, using RabbitMQ for messaging and sending notifications to clients/consumers, while also sending verification emails
 to send out verification emails, using an external API [SendGrid](https://sendgrid.com/en-us)
 
----
 
 ## Prerequsites
 Make sure you have the following installed:
 - [Docker](https://docker.com)
 - [Go](https://go.dev)
 - [Node.js + npm](https://nodejs.org)
-- [MySQL]
+- [MySQL](https://dev.mysql.com/downloads/)
 
 
 
