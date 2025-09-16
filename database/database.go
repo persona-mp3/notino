@@ -3,24 +3,45 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"os"
+	"strconv"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 const (
-	HOST     = "localhost"
-	PORT     = "3306"
-	DB_NAME  = "go_db_2"
-	PASSWORD = "password"
-	DRIVER   = "mysql"
-	USER     = "root"
+	DB_NAME = "go_db_2"
+	DRIVER  = "mysql"
 )
 
-var srcConn string = fmt.Sprintf("%s:%s@/%s", USER, PASSWORD, DB_NAME)
+func loadEnv() error {
+	err := godotenv.Load("./.env")
+	if err != nil {
+		fmt.Println("Could not load env for database")
+		return err
+	}
 
-// Creates a new connection to the database using MySQL driver
+	return nil
+}
+
 func ConnectDB() (*DBConn, error) {
-	conn, err := sql.Open(DRIVER, srcConn)
+	if err := loadEnv(); err != nil {
+		return nil, err
+	}
+
+	HOST := os.Getenv("SQL_HOST")
+	PASSWORD := os.Getenv("SQL_PASSWORD")
+	USER := os.Getenv("SQL_USER")
+	PORT, err := strconv.ParseInt(os.Getenv("SQL_PORT"), 10, 64)
+
+	var connStr string = fmt.Sprintf("%s:%s@/%s", USER, PASSWORD, DB_NAME)
+
+	if HOST == "" || PASSWORD == "" || USER == "" || PORT == 0 {
+		return nil, fmt.Errorf("Check env!, some values have not been set properly\n")
+	}
+	conn, err := sql.Open(DRIVER, connStr)
 	if err != nil {
 		return nil, fmt.Errorf("Error occured opening connection:\n %w", err)
 	}
@@ -78,6 +99,3 @@ func (c *DBConn) CreateUser(u *UserReq) (*UserRes, error) {
 	return ur, nil
 }
 
-// now we can now push this event to kafka
-// and push let the other microservice do something with it:
-func SendEvent() {}

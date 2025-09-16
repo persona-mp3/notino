@@ -21,9 +21,9 @@ func main() {
 		return
 	}
 
-	err := godotenv.Load("./consumer/.env")
+	err := godotenv.Load("./.env")
 	if err != nil {
-		fmt.Println("Could not load local varaiables")
+		fmt.Println("Could not load env for RabbitMq")
 		return
 	}
 
