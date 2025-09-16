@@ -1,5 +1,5 @@
 import { RabbitEvents } from "./emitter";
-import  sgMail from "@sendgrid/mail"
+import sgMail from "@sendgrid/mail"
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -18,7 +18,9 @@ type User = {
   lastName: string,
 }
 
-const msgFmt= (name:any) => `
+// At the moment, all emails sent usually go to a users spam folder because 
+// of certain verfication issues, and since I don't have a valid domain yet 
+const msgFmt = (name: any) => `
 <h2> Hey there ${name} </h2>
 
 <p>You have just signed up to create an account with ImportantBusiness.</p>
@@ -37,10 +39,11 @@ eventConsumer.on("notification", async (content) => {
   const u: User = parsedContent as User
   try {
     await sendEmail(u)
-  } catch (err) { 
+  } catch (err) {
     console.log(err)
   }
 })
+
 
 
 async function sendEmail(u: User) {
@@ -56,11 +59,10 @@ async function sendEmail(u: User) {
     const res = await sgMail.send(msg)
     console.log("sent email, reading response headers")
     const statusCode = res[0].statusCode
-    const headers = res[0].headers
 
     console.log("status code returned -> %s", statusCode)
   } catch (err) {
     throw err
   }
 }
-eventConsumer.start("break_prod", "amqp://localhost")
+eventConsumer.start("create_user", "amqp://localhost")

@@ -9,22 +9,24 @@ import (
 	"log"
 	"net/http"
 
+	// "github.com/joho/godotenv"
+
 	publisher "github.com/persona-mp3/pwa/broker"
 	db "github.com/persona-mp3/pwa/database"
 	rmq "github.com/rabbitmq/amqp091-go"
 )
 
-var connConfig = publisher.Connection{
-	User:     "guest",
-	Password: "guest",
-	Host:     "localhost",
-	Port:     5672,
-}
+// var connConfig = publisher.Connection{
+// 	User:     "guest",
+// 	Password: "guest",
+// 	Host:     "localhost",
+// 	Port:     5672,
+// }
 
 var RabbitClient *publisher.Client
 
-func RabbitConnect() {
-	conn, err := publisher.NewConnection(connConfig)
+func RabbitConnect(c publisher.Connection) {
+	conn, err := publisher.NewConnection(c)
 	if err != nil {
 		log.Printf("PANIC: Could not connect with broker:\n %s\n", err)
 		return
@@ -109,4 +111,3 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("[o] Message sent to broker")
 }
-

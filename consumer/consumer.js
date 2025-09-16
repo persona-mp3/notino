@@ -13,6 +13,8 @@ if (!API_KEY) {
 }
 mail_1.default.setApiKey(API_KEY);
 const eventConsumer = new emitter_1.RabbitEvents();
+// At the moment, all emails sent usually go to a users spam folder because 
+// of certain verfication issues, and since I don't have a valid domain yet 
 const msgFmt = (name) => `
 <h2> Hey there ${name} </h2>
 
@@ -49,11 +51,10 @@ async function sendEmail(u) {
         const res = await mail_1.default.send(msg);
         console.log("sent email, reading response headers");
         const statusCode = res[0].statusCode;
-        const headers = res[0].headers;
         console.log("status code returned -> %s", statusCode);
     }
     catch (err) {
         throw err;
     }
 }
-eventConsumer.start("break_prod", "amqp://localhost");
+eventConsumer.start("create_user", "amqp://localhost");
