@@ -1,11 +1,22 @@
 # Notino
 
-Notino is a lightweight micro-service architecture that utilizes an API endpoint for creating new users. 
-Following an event-driven system with notifications, new users are sent to RabbitMQ and then to a cosumer client 
+Notino is a lightweight micro-service architecture for creating and managing users.
+It follows an event-driven system with notifications, new users are sent to RabbitMQ and then to a cosumer client 
 to send out verification emails, using an external API [SendGrid](https://sendgrid.com/en-us)
 
+---
+
+## Prerequsites
+Make sure you have the following installed:
+- [Docker](https://docker.com)
+- [Go](https://go.dev)
+- [Node.js + npm](https://nodejs.org)
+- [MySQL]
+
+
+
 ## Installation
-Make sure you have Docker and the GoLang compiler installed. You can find the instructions at [Docker](https://docker.com) and [GoLang](https://go.dev) respectively
+Clone the repository
 
 ```bash
 git clone https://github.com/persona-mp3/notino.git
