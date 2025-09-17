@@ -29,10 +29,10 @@ func RabbitConnect(c publisher.Connection) {
 	log.Println("connection initialised with broker")
 }
 
-
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" || r.Body == nil {
-		http.Error(w, "bad request", http.StatusBadRequest)
+		log.Println("client sent a foreign request: ->", r.Method, r.Body)
+		http.Error(w, "Bad request\n", http.StatusBadRequest)
 		return
 	}
 

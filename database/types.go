@@ -6,6 +6,7 @@ type DBConn struct {
 	Conn *sql.DB
 }
 
+// this is going to be the schema for our request
 type UserReq struct {
 	Email     string `json:"email"`
 	UserName  string `json:"userName"`

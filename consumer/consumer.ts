@@ -3,7 +3,7 @@ import sgMail from "@sendgrid/mail"
 import dotenv from "dotenv"
 
 dotenv.config()
-const API_KEY = process.env.SG_KEY
+const API_KEY = process.env.SG_KEY 
 if (!API_KEY) {
   throw ("Could not read api key")
 }
